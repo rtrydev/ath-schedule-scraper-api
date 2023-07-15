@@ -1,0 +1,12 @@
+{
+  "name": "ath-schedule-scraper-api",
+  "version": "1.0.0",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless": "^3.33.0",
+    "serverless-deployment-bucket": "^1.6.0",
+    "serverless-python-requirements": "^6.0.0"
+  }
+}

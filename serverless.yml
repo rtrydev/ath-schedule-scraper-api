@@ -1,0 +1,71 @@
+service: ath-schedule-scraper-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.10
+  deploymentBucket:
+    name: rtrydev-serverless-deployments-${opt:region}
+
+package:
+  individually: true
+  patterns:
+    - '!**/*'
+
+functions:
+  getBranch:
+    package:
+      patterns:
+        - 'src/handlers/get_branch.py'
+        - 'src/shared/**/*'
+    handler: src/handlers/get_branch.handler
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
+    events:
+      - httpApi:
+          path: /branch/{branch_id}
+          method: GET
+  createBranch:
+    package:
+      patterns:
+        - 'src/handlers/create_branch.py'
+        - 'src/shared/**/*'
+    handler: src/handlers/create_branch.handler
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
+    events:
+      - httpApi:
+          path: /branch
+          method: POST
+  getSchedule:
+    package:
+      patterns:
+        - 'src/handlers/get_schedule.py'
+        - 'src/shared/**/*'
+    handler: src/handlers/get_schedule.handler
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
+    events:
+      - httpApi:
+          path: /schedule/{schedule_id}
+          method: GET
+  createSchedule:
+    package:
+      patterns:
+        - 'src/handlers/create_schedule.py'
+        - 'src/shared/**/*'
+    handler: src/handlers/create_schedule.handler
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
+    events:
+      - httpApi:
+          path: /schedule
+          method: POST
+
+custom:
+  pythonRequirements:
+    layer: true
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-python-requirements
