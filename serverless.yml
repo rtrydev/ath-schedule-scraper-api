@@ -6,6 +6,22 @@ provider:
   runtime: python3.10
   deploymentBucket:
     name: rtrydev-serverless-deployments-${opt:region}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - 'dynamodb:GetItem'
+            - 'dynamodb:PutItem'
+          Resource:
+            - arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/ath-schedule-branches
+        - Effect: Allow
+          Action:
+            - 's3:GetObject'
+            - 's3:PutObject'
+            - 's3:HeadObject'
+          Resource:
+            - arn:aws:s3:::ath-schedule-cache/*
 
 package:
   individually: true

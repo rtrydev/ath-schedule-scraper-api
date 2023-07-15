@@ -19,11 +19,14 @@ def handler(event, context):
     scraper_service = ScheduleScraperService()
 
     try:
-        branch_data = scraper_service.fetch_branch_data(
-            branch_id=branch_params.branch_id,
-            branch_link=branch_params.branch_link,
-            branch_type=branch_params.branch_type
-        )
+        if branch_params.branch_id == 'base':
+            branch_data = scraper_service.fetch_base_branch_data()
+        else:
+            branch_data = scraper_service.fetch_branch_data(
+                branch_id=branch_params.branch_id,
+                branch_link=branch_params.branch_link,
+                branch_type=branch_params.branch_type
+            )
     except Exception as e:
         print(e)
         return {

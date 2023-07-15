@@ -81,12 +81,7 @@ class ScheduleScraperService:
         feed_items: List[FeedItem] = []
 
         soup = BeautifulSoup(html, 'html.parser')
-        branch_list = soup.find('ul')
-
-        if branch_list is None:
-            return None
-
-        branch_items: List[Tag] = branch_list.find_all('li')
+        branch_items: List[Tag] = soup.find_all('li')
 
         if branch_items is None or len(branch_items) == 0:
             return None
@@ -108,6 +103,8 @@ class ScheduleScraperService:
                     title=branch_call_params[3]
                 )
             )
+
+        return feed_items
 
     def __get_onclick_params(self, branch_item: Tag) -> FeedItem:
         img = branch_item.find('img')
