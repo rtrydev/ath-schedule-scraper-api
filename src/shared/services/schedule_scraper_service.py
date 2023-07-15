@@ -45,7 +45,7 @@ class ScheduleScraperService:
 
         return self.__parse_base_branch_data(response.content)
 
-    def __parse_branch_data(self, html: str) -> Optional[Union[List[FeedItem], List[ScheduleItem]]]:
+    def __parse_branch_data(self, html: bytes) -> Optional[Union[List[FeedItem], List[ScheduleItem]]]:
         feed_items: List[FeedItem] = []
         schedule_items: List[ScheduleItem] = []
 
@@ -77,7 +77,7 @@ class ScheduleScraperService:
 
         return schedule_items
 
-    def __parse_base_branch_data(self, html: str) -> Optional[List[FeedItem]]:
+    def __parse_base_branch_data(self, html: bytes) -> Optional[List[FeedItem]]:
         feed_items: List[FeedItem] = []
 
         soup = BeautifulSoup(html, 'html.parser')

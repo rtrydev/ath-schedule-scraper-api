@@ -1,17 +1,45 @@
 import json
 
+from pydantic import ValidationError
+
+from src.shared.dtos.create_branch_dto import CreateBranchDTO
 from src.shared.services.schedule_scraper_service import ScheduleScraperService
 
 
 def handler(event, context):
-    print(event)
+    event_body = json.loads(event.get('body') or '{}')
 
-    # scraper_service = ScheduleScraperService()
-    # branch_data = scraper_service.fetch_branch_data()
+    try:
+        branch_params = CreateBranchDTO(**event_body)
+    except ValidationError:
+        return {
+            'statusCode': 400
+        }
+
+    scraper_service = ScheduleScraperService()
+
+    try:
+        branch_data = scraper_service.fetch_branch_data(
+            branch_id=branch_params.branch_id,
+            branch_link=branch_params.branch_link,
+            branch_type=branch_params.branch_type
+        )
+    except Exception as e:
+        print(e)
+        return {
+            'statusCode': 503
+        }
+
+    if branch_data is None:
+        return {
+            'statusCode': 404
+        }
+
+    parsed_data = [data.dict() for data in branch_data]
 
     return {
         'statusCode': 200,
         'body': json.dumps({
-            'message': 'hello from create branch'
+            'data': parsed_data
         })
     }
