@@ -39,7 +39,7 @@ functions:
       - Ref: PythonRequirementsLambdaLayer
     events:
       - httpApi:
-          path: /branch/{branch_id}
+          path: /branches/{branch_id}
           method: GET
   createBranch:
     package:
@@ -51,7 +51,7 @@ functions:
       - Ref: PythonRequirementsLambdaLayer
     events:
       - httpApi:
-          path: /branch
+          path: /branches
           method: POST
   getSchedule:
     package:
@@ -63,7 +63,7 @@ functions:
       - Ref: PythonRequirementsLambdaLayer
     events:
       - httpApi:
-          path: /schedule/{schedule_id}
+          path: /schedules/{schedule_id}
           method: GET
   createSchedule:
     package:
@@ -75,7 +75,7 @@ functions:
       - Ref: PythonRequirementsLambdaLayer
     events:
       - httpApi:
-          path: /schedule
+          path: /schedules
           method: POST
 
 custom:
