@@ -58,7 +58,7 @@ def handler(event, context):
     ics_parser = ICSParserService()
 
     try:
-        parsed_schedule = ics_parser.parse_ics_to_json(schedule_data)
+        parsed_schedule = ics_parser.parse_ics_to_json(schedule_data, int(schedule_params.week))
     except Exception as e:
         print(f'Could not parse the schedule {schedule_key}.ics', e)
         blacklist_db.put_blacklist(schedule_key)

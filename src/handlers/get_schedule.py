@@ -11,7 +11,7 @@ def handler(event, context):
     query_parameters = event.get('queryStringParameters') or {}
 
     schedule_id = path_parameters.get('schedule_id')
-    week = query_parameters.get('week')
+    week = int(query_parameters.get('week'))
 
     if week is None:
         year, week_num, _ = datetime.datetime.now().isocalendar()
@@ -29,7 +29,7 @@ def handler(event, context):
         }
 
     ics_parser = ICSParserService()
-    parsed_schedule = ics_parser.parse_ics_to_json(schedule)
+    parsed_schedule = ics_parser.parse_ics_to_json(schedule, week)
 
     return {
         'statusCode': 200,

@@ -21,7 +21,7 @@ class BlacklistDB:
         return response.get('Item') is not None
 
     def put_blacklist(self, item_id: str):
-        ttl_timestamp = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
+        ttl_timestamp = int((datetime.datetime.now() + datetime.timedelta(days=3)).timestamp())
 
         self.dynamo_db.put_item(
             TableName=self.table,

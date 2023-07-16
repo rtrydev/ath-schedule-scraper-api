@@ -2,11 +2,20 @@ import datetime
 import re
 from typing import List
 
+from src.shared.globals import WEEK_OFFSET, WEEK_LENGTH_SEC
+
 
 class ICSParserService:
-    def parse_ics_to_json(self, ics_body: str) -> List[dict]:
+    def parse_ics_to_json(self, ics_body: str, week: int) -> List[dict]:
         raw_events = []
         current_raw_obj = {}
+
+        absolute_week = week + WEEK_OFFSET
+        year = 1970 + int(absolute_week / 52)
+        year_week = absolute_week % 52
+
+        week_start_timestamp = int(datetime.datetime.fromisocalendar(year, year_week, 1).timestamp())
+        week_end_timestamp = week_start_timestamp + WEEK_LENGTH_SEC
 
         lines = ics_body.split('\n')
 
@@ -51,7 +60,12 @@ class ICSParserService:
                 'rooms': rooms
             })
 
-        return result
+        return [
+            item
+            for item in result
+            if item.get('start_time') > week_start_timestamp
+            and item.get('end_time') < week_end_timestamp
+        ]
 
     def __get_timestamp_from_date(self, date_time: str) -> int:
         [date, time] = date_time.split('T')

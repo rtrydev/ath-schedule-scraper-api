@@ -1,3 +1,4 @@
+import datetime
 import json
 from typing import List
 
@@ -50,6 +51,8 @@ class BranchDB:
         return item is not None
 
     def put_branch_data(self, branch_id: str, branch_data: List[FeedItem]):
+        ttl_timestamp = int((datetime.datetime.now() + datetime.timedelta(days=3)).timestamp())
+
         dumped_data = json.dumps(
             [
                 branch_item.model_dump()
@@ -65,6 +68,9 @@ class BranchDB:
                 },
                 'branch_data': {
                     'S': dumped_data
+                },
+                'ttl': {
+                    'N': str(ttl_timestamp)
                 }
             }
         )
