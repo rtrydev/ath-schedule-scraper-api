@@ -57,6 +57,8 @@ def handler(event, context):
             'statusCode': 422
         }
 
+    schedule_db.put_schedule_body(schedule_key, schedule_data)
+
     return {
         'statusCode': 200,
         'body': json.dumps({
