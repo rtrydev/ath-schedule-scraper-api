@@ -2,6 +2,7 @@ import json
 
 from pydantic import ValidationError
 
+from src.shared.database.blacklist_db import BlacklistDB
 from src.shared.database.branch_db import BranchDB
 from src.shared.dtos.create_branch_dto import CreateBranchDTO
 from src.shared.services.schedule_scraper_service import ScheduleScraperService
@@ -18,6 +19,13 @@ def handler(event, context):
         }
 
     branch_db = BranchDB()
+    blacklist_db = BlacklistDB()
+
+    if blacklist_db.is_blacklisted(branch_params.branch_id):
+        print(f'Attempted to create blacklisted branch {branch_params.branch_id}')
+        return {
+            'statusCode': 404
+        }
 
     if branch_db.branch_data_exists(branch_params.branch_id):
         return {
@@ -42,6 +50,7 @@ def handler(event, context):
         }
 
     if branch_data is None:
+        blacklist_db.put_blacklist(branch_params.branch_id)
         return {
             'statusCode': 404
         }

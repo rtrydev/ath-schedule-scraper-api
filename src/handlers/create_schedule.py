@@ -2,6 +2,7 @@ import json
 
 from pydantic import ValidationError
 
+from src.shared.database.blacklist_db import BlacklistDB
 from src.shared.database.schedule_db import ScheduleDB
 from src.shared.dtos.create_schedule_dto import CreateScheduleDTO
 from src.shared.services.ics_parser_service import ICSParserService
@@ -21,9 +22,15 @@ def handler(event, context):
     schedule_key = f'{schedule_params.schedule_id}-{schedule_params.week}'
 
     schedule_db = ScheduleDB()
-    schedule_exists = schedule_db.schedule_body_exists(schedule_key)
+    blacklist_db = BlacklistDB()
 
-    if schedule_exists:
+    if blacklist_db.is_blacklisted(schedule_key):
+        print(f'Attempted to create blacklisted branch {schedule_key}')
+        return {
+            'statusCode': 404
+        }
+
+    if schedule_db.schedule_body_exists(schedule_key):
         return {
             'statusCode': 409
         }
@@ -43,6 +50,7 @@ def handler(event, context):
         }
 
     if schedule_data is None:
+        blacklist_db.put_blacklist(schedule_key)
         return {
             'statusCode': 404
         }
@@ -53,6 +61,7 @@ def handler(event, context):
         parsed_schedule = ics_parser.parse_ics_to_json(schedule_data)
     except Exception as e:
         print(f'Could not parse the schedule {schedule_key}.ics', e)
+        blacklist_db.put_blacklist(schedule_key)
         return {
             'statusCode': 422
         }
