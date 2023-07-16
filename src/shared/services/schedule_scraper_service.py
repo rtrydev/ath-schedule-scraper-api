@@ -100,7 +100,7 @@ class ScheduleScraperService:
                     type=branch_call_params[0],
                     branch=branch_call_params[1],
                     link=branch_call_params[2],
-                    title=branch_call_params[3]
+                    title=re.sub(r'[^a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\- ]', '', branch_call_params[3])
                 )
             )
 
