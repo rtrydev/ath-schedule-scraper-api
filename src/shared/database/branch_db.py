@@ -1,10 +1,11 @@
 import datetime
 import json
-from typing import List
+from typing import List, Union
 
 import boto3
 
 from src.shared.models.feed_item import FeedItem
+from src.shared.models.schedule_item import ScheduleItem
 
 
 class BranchDB:
@@ -12,7 +13,7 @@ class BranchDB:
         self.dynamo_db = boto3.client('dynamodb')
         self.table = 'ath-schedule-branches'
 
-    def get_branch_data(self, branch_id: str) -> List[FeedItem]:
+    def get_branch_data(self, branch_id: str) -> Union[List[FeedItem], List[ScheduleItem]]:
         response = self.dynamo_db.get_item(
             TableName=self.table,
             Key={
@@ -33,6 +34,12 @@ class BranchDB:
                 link=branch_item.get('link'),
                 title=branch_item.get('title')
             )
+            if branch_item.get('link') is not None
+            else ScheduleItem(
+                id=branch_item.get('id'),
+                type=branch_item.get('type'),
+                title=branch_item.get('title')
+            )
             for branch_item in branch_data
         ]
 
@@ -50,7 +57,7 @@ class BranchDB:
 
         return item is not None
 
-    def put_branch_data(self, branch_id: str, branch_data: List[FeedItem]):
+    def put_branch_data(self, branch_id: str, branch_data: Union[List[FeedItem], List[ScheduleItem]]):
         ttl_timestamp = int((datetime.datetime.now() + datetime.timedelta(days=3)).timestamp())
 
         dumped_data = json.dumps(
