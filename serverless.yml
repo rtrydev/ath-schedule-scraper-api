@@ -8,8 +8,8 @@ provider:
     name: rtrydev-serverless-deployments-${opt:region}
   httpApi:
     cors:
-      origin: '*'
-      headers:
+      allowedOrigins: '*'
+      allowedHeaders:
         - Content-Type
         - X-Amz-Date
         - Authorization
