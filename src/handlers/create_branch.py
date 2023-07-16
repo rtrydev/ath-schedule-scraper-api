@@ -46,7 +46,6 @@ def handler(event, context):
             'statusCode': 404
         }
 
-
     try:
         branch_db.put_branch_data(
             branch_id=branch_params.branch_id,
