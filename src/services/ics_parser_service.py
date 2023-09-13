@@ -2,7 +2,7 @@ import datetime
 import re
 from typing import List
 
-from src.shared.globals import WEEK_OFFSET, WEEK_LENGTH_SEC
+from src.globals import WEEK_OFFSET, WEEK_LENGTH_SEC
 
 
 class ICSParserService:

@@ -2,11 +2,11 @@ import json
 
 from pydantic import ValidationError
 
-from src.shared.database.blacklist_db import BlacklistDB
-from src.shared.database.schedule_db import ScheduleDB
-from src.shared.dtos.create_schedule_dto import CreateScheduleDTO
-from src.shared.services.ics_parser_service import ICSParserService
-from src.shared.services.schedule_scraper_service import ScheduleScraperService
+from src.database.blacklist_db import BlacklistDB
+from src.database.schedule_db import ScheduleDB
+from src.dtos.create_schedule_dto import CreateScheduleDTO
+from src.services.ics_parser_service import ICSParserService
+from src.services.schedule_scraper_service import ScheduleScraperService
 
 
 def handler(event, context):

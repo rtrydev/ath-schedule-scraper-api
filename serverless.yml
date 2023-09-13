@@ -44,9 +44,9 @@ functions:
   getBranch:
     package:
       patterns:
-        - 'src/handlers/get_branch.py'
-        - 'src/shared/**/*'
-    handler: src/handlers/get_branch.handler
+        - 'handlers/get_branch.py'
+        - 'src/**/*'
+    handler: handlers/get_branch.handler
     layers:
       - Ref: PythonRequirementsLambdaLayer
     events:
@@ -56,9 +56,9 @@ functions:
   createBranch:
     package:
       patterns:
-        - 'src/handlers/create_branch.py'
-        - 'src/shared/**/*'
-    handler: src/handlers/create_branch.handler
+        - 'handlers/create_branch.py'
+        - 'src/**/*'
+    handler: handlers/create_branch.handler
     layers:
       - Ref: PythonRequirementsLambdaLayer
     events:
@@ -68,9 +68,9 @@ functions:
   getSchedule:
     package:
       patterns:
-        - 'src/handlers/get_schedule.py'
-        - 'src/shared/**/*'
-    handler: src/handlers/get_schedule.handler
+        - 'handlers/get_schedule.py'
+        - 'src/**/*'
+    handler: handlers/get_schedule.handler
     layers:
       - Ref: PythonRequirementsLambdaLayer
     events:
@@ -80,9 +80,9 @@ functions:
   createSchedule:
     package:
       patterns:
-        - 'src/handlers/create_schedule.py'
-        - 'src/shared/**/*'
-    handler: src/handlers/create_schedule.handler
+        - 'handlers/create_schedule.py'
+        - 'src/**/*'
+    handler: handlers/create_schedule.handler
     layers:
       - Ref: PythonRequirementsLambdaLayer
     events:

@@ -1,6 +1,6 @@
 import json
 
-from src.shared.database.branch_db import BranchDB
+from src.database.branch_db import BranchDB
 
 
 def handler(event, context):

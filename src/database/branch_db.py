@@ -4,8 +4,8 @@ from typing import List, Union
 
 import boto3
 
-from src.shared.models.feed_item import FeedItem
-from src.shared.models.schedule_item import ScheduleItem
+from src.models.feed_item import FeedItem
+from src.models.schedule_item import ScheduleItem
 
 
 class BranchDB:

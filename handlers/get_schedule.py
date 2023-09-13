@@ -1,9 +1,9 @@
 import datetime
 import json
 
-from src.shared.database.schedule_db import ScheduleDB
-from src.shared.globals import WEEK_OFFSET
-from src.shared.services.ics_parser_service import ICSParserService
+from src.database.schedule_db import ScheduleDB
+from src.globals import WEEK_OFFSET
+from src.services.ics_parser_service import ICSParserService
 
 
 def handler(event, context):

@@ -2,10 +2,10 @@ import json
 
 from pydantic import ValidationError
 
-from src.shared.database.blacklist_db import BlacklistDB
-from src.shared.database.branch_db import BranchDB
-from src.shared.dtos.create_branch_dto import CreateBranchDTO
-from src.shared.services.schedule_scraper_service import ScheduleScraperService
+from src.database.blacklist_db import BlacklistDB
+from src.database.branch_db import BranchDB
+from src.dtos.create_branch_dto import CreateBranchDTO
+from src.services.schedule_scraper_service import ScheduleScraperService
 
 
 def handler(event, context):
